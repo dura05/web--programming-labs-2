@@ -58,7 +58,7 @@ def add_flower_without_name():
 @lab2.route('/lab2/flowers/')
 def list_flowers():
     flower_count = len(flower_list)
-    return render_template('flowers.html', flower_list=flower_list, flower_count=flower_count)
+    return render_template('lab2/flowers.html', flower_list=flower_list, flower_count=flower_count)
 @lab2.route('/lab2/clear_flowers/')
 def clear_flowers():
     flower_list.clear()  # Очищаем список
@@ -83,18 +83,19 @@ def example():
         {'name': 'мандарины', 'price': 96},
         {'name': 'манго', 'price': 322}
     ]
-    return render_template ('example.html', name=name, number_lab=number_lab,
-                           group_student=group_student, number_course=number_course, fruits=fruits)
+    return render_template ('lab2/example.html', name=name, number_lab=number_lab,
+                            group_student=group_student, number_course=number_course,
+                           fruits=fruits)
     
 @lab2.route('/lab2/')
 def lab():
-    return render_template('lab2.html')
+     return render_template('lab2/lab2.html')
 
 
 @lab2.route('/lab2/filters/')
 def filters():
     phrase = "О <b>сколько</b> <u>нам</u> <i>открытий</i> чудных..."
-    return render_template('filter.html', phrase = phrase)
+    return render_template('lab2/filter.html', phrase = phrase)
 
 @lab2.route('/lab2/calc/<int:a>/<int:b>')
 def calc(a, b):
@@ -140,18 +141,18 @@ books = [
 
 @lab2.route('/lab2/books/')
 def book_list():
-    return render_template('books.html', books=books)
+     return render_template('lab2/books.html', books=books)
 
 
 
 movies = [
-    {"title": "Начало", "description": "Научно-фантастический триллер о воровстве идей через сны.", "image": "inception.jpg"},
-    {"title": "Титаник", "description": "Романтическая драма о любви на фоне катастрофы легендарного лайнера.", "image": "titanik.jpg"},
-    {"title": "Темный рыцарь", "description": "Супергеройский фильм о борьбе Бэтмена с Джокером в Готэме.", "image": "batman.jpg"},
-    {"title": "Зеленая миля", "description": "Драма о тюремном надзирателе и его необычном заключённом с даром исцеления.", "image": "Green_mile_film.jpg"},
-    {"title": "Побег из Шоушенка", "description": "История о дружбе и надежде в условиях тюрьмы.", "image": "pobeg.webp"}
+    {"title": "Начало", "description": "Научно-фантастический триллер о воровстве идей через сны.", "image": "lab2/inception.jpg"},
+    {"title": "Титаник", "description": "Романтическая драма о любви на фоне катастрофы легендарного лайнера.", "image": "lab2/titanik.jpg"},
+    {"title": "Темный рыцарь", "description": "Супергеройский фильм о борьбе Бэтмена с Джокером в Готэме.", "image": "lab2/batman.jpg"},
+    {"title": "Зеленая миля", "description": "Драма о тюремном надзирателе и его необычном заключённом с даром исцеления.", "image": "lab2/Green_mile_film.jpg"},
+    {"title": "Побег из Шоушенка", "description": "История о дружбе и надежде в условиях тюрьмы.", "image": "lab2/pobeg.webp"}
 ]
 
 @lab2.route('/lab2/movies/')
 def movie_list():
-    return render_template('movies.html', movies=movies)
+    return render_template('lab2/movies.html', movies=movies)
