@@ -357,3 +357,20 @@ def calc_default():
 @app.route('/lab2/calc/<int:a>')
 def calc_redirect(a):
     return redirect(url_for('calc', a=a, b=1))
+
+books = [
+    {"author": "Габриэль Гарсиа Маркес", "title": "Сто лет одиночества", "genre": "Роман", "pages": 422},
+    {"author": "Фрэнсис Скотт Фицджеральд", "title": "Великий Гэтсби", "genre": "Роман", "pages": 180},
+    {"author": "Джейн Остин", "title": "Гордость и предубеждение", "genre": "Роман", "pages": 432},
+    {"author": "Марк Твен", "title": "Приключения Гекльберри Финна", "genre": "Приключенческий роман", "pages": 366},
+    {"author": "Харпер Ли", "title": "Убить пересмешника", "genre": "Роман", "pages": 281},
+    {"author": "Джон Стейнбек", "title": "Гроздья гнева", "genre": "Роман", "pages": 464},
+    {"author": "Кен Кизи", "title": "Пролетая над гнездом кукушки", "genre": "Роман", "pages": 320},
+    {"author": "Стивен Кинг", "title": "Сияние", "genre": "Ужасы", "pages": 688},
+    {"author": "Эрих Мария Ремарк", "title": "На Западном фронте без перемен", "genre": "Антивоенный роман", "pages": 296},
+    {"author": "Джордж Оруэлл", "title": "Скотный двор", "genre": "Сатира", "pages": 112}
+]
+
+@app.route('/lab2/books/')
+def book_list():
+    return render_template('books.html', books=books)
