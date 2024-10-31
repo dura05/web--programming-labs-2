@@ -26,6 +26,6 @@ footer {
     left: 0;
 }
 .error {
-    color: red;
+    color: rgb(88, 50, 50);
     font-style: italic;
 }
