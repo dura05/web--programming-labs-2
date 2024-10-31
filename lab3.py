@@ -126,3 +126,14 @@ def ticket_result():
                            destination=destination, date=date, berth=berth,
                            bedding=bedding, luggage=luggage, insurance=insurance,
                            ticket_type=ticket_type, price=price)
+    
+    
+@lab3.route('/lab3/clear_cookies')
+def clear_cookies():
+    
+    resp = make_response(redirect('/lab3/'))
+    resp.delete_cookie('color')
+    resp.delete_cookie('background_color')
+    resp.delete_cookie('font_size')
+    resp.delete_cookie('text_align')
+    return resp
