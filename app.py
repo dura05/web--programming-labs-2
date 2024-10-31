@@ -374,3 +374,17 @@ books = [
 @app.route('/lab2/books/')
 def book_list():
     return render_template('books.html', books=books)
+
+
+
+movies = [
+    {"title": "Начало", "description": "Научно-фантастический триллер о воровстве идей через сны.", "image": "inception.jpg"},
+    {"title": "Титаник", "description": "Романтическая драма о любви на фоне катастрофы легендарного лайнера.", "image": "titanik.jpg"},
+    {"title": "Темный рыцарь", "description": "Супергеройский фильм о борьбе Бэтмена с Джокером в Готэме.", "image": "batman.jpg"},
+    {"title": "Зеленая миля", "description": "Драма о тюремном надзирателе и его необычном заключённом с даром исцеления.", "image": "Green_mile_film.jpg"},
+    {"title": "Побег из Шоушенка", "description": "История о дружбе и надежде в условиях тюрьмы.", "image": "pobeg.webp"}
+]
+
+@app.route('/lab2/movies/')
+def movie_list():
+    return render_template('movies.html', movies=movies)
