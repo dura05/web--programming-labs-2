@@ -138,19 +138,18 @@ def logout():
     return redirect('/lab4/login')
 
 
-
-
 @lab4.route('/lab4/fridge', methods=['GET', 'POST'])
 def fridge():
     if request.method == 'POST':
+
         temperature = request.form.get('temperature')
+
         if temperature is None or temperature.strip() == '':
             message = "Ошибка: не задана температура"
             snow = 0
         else:
             temperature = int(temperature)
-        
-
+            
             if temperature < -12:
                 message = "Не удалось установить температуру — слишком низкое значение"
                 snow = 0
@@ -167,5 +166,5 @@ def fridge():
                 message = f"Установлена температура: {temperature}°С"
                 snow = 1
         return render_template('/lab4/fridge.html', message=message, snow=snow)
-
+   
     return render_template('/lab4/fridge.html', message=None, snow=0)
