@@ -87,6 +87,7 @@ def login():
                                error='Логин и/или пароль неверны')
     
     session['login'] = login
+    session['user_id'] = user['id']
     db_close(conn, cur)
     return render_template('lab5/success_login.html', login=login)
 
@@ -103,6 +104,13 @@ def create():
     
     title = request.form.get('title')
     article_text = request.form.get('article_text')
+    #Добавка валидации
+    
+    if not title.strip() or not article_text.strip():
+        return render_template('lab5/create_article.html',
+            error='Необходимо заполнить поля')
+        
+        
     conn, cur = db_connect()
     if current_app.config['DB_TYPE'] == 'postgres':
         cur.execute("SELECT * FROM users WHERE login=%s;", (login, ))
@@ -136,4 +144,87 @@ def list():
         cur.execute("SELECT * FROM articles WHERE user_id=?;", (user_id, ))
     articles = cur.fetchall()
     db_close(conn, cur)
-    return render_template('/lab5/articles.html', articles=articles)
+    return render_template('/lab5/articles.html', articles=articles, has_articles=bool(articles))
+
+
+@lab5.route('/lab5/logout')
+def logout(): # Удаление данных
+    session.pop('login', None)
+    return redirect('/lab5/login')
+@lab5.route('/lab5/edit/<int:article_id>', methods=['GET', 'POST'])
+def redact_article(article_id):
+    conn, cur = db_connect()
+    if request.method == 'GET':
+        if current_app.config['DB_TYPE'] == 'postgres':
+            cur.execute("""
+            SELECT a.id, a.title, a.article_text, u.login, a.user_id
+            FROM articles a
+            JOIN users u ON a.user_id = u.id
+            WHERE a.id=%s;
+            """, (article_id,))
+        else:
+            cur.execute("""
+            SELECT a.id, a.title, a.article_text, u.login, a.user_id
+            FROM articles a
+            JOIN users u ON a.user_id = u.id
+            WHERE a.id =?;
+            """, (article_id,))
+        article = cur.fetchone()
+        
+        if not article:
+            db_close(conn, cur)
+            return "Статья не найдена", 404
+        # Проверка авторства
+        if 'user_id' not in session or session['user_id'] != article['user_id']:
+            db_close(conn, cur)
+            return "Доступ запрещен", 403
+        db_close(conn, cur)
+        return render_template('lab5/redact_article.html', article=article)
+    title = request.form.get('title')
+    article_text = request.form.get('content')
+    # Проверка авторства
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT user_id FROM articles WHERE id=%s;", (article_id,))
+    else:
+        cur.execute("SELECT user_id FROM articles WHERE id=?;", (article_id,))
+    article = cur.fetchone()
+    if not article or 'user_id' not in session or session['user_id'] != article['user_id']:
+        db_close(conn, cur)
+        return "Доступ запрещен", 403
+    # Обновление данных
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("""
+        UPDATE articles
+        SET title=%s, article_text=%s
+        WHERE id=%s;
+    """, (title, article_text, article_id))
+    else:
+        cur.execute("""
+        UPDATE articles
+        SET title =?, article_text =?
+        WHERE id=?;
+    """, (title, article_text, article_id))
+    db_close(conn, cur)
+    return redirect('/lab5/list')
+@lab5.route('/lab5/delete/<int:article_id>', methods=['POST'])
+def delete_article(article_id):
+    conn, cur = db_connect()
+    # проверка авторства
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("SELECT user_id FROM articles WHERE id=%s;", (article_id,))
+    else:
+        cur.execute("SELECT user_id FROM articles WHERE id=?;", (article_id,))
+    
+    article = cur.fetchone()
+    if not article or 'user_id' not in session or session['user_id'] != article['user_id']:
+        db_close(conn, cur)
+        return "Доступ запрещен", 403
+    # Удаляем статью
+    if current_app.config['DB_TYPE'] == 'postgres':
+        cur.execute("DELETE FROM articles WHERE id=%s;", (article_id,))
+    else:
+        cur.execute("DELETE FROM articles WHERE id=?;", (article_id,))
+    
+    conn.commit()
+    db_close(conn, cur)
+    return redirect('/lab5/list')
