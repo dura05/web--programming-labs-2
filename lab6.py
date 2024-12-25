@@ -22,13 +22,6 @@ def api():
             'id': id
         }
         
-    if data['method'] == 'get_total_price':
-        total_price = sum(office['price'] for office in offices if office['tenant'] == login)
-        return {
-            'jsonrpc': '2.0',
-            'result': total_price,
-            'id': id
-        }
 
     login = session.get('login')
     if not login:
@@ -38,6 +31,14 @@ def api():
                 'code': 1,
                 'message': 'Unauthorized'
             },
+            'id': id
+        }
+        
+    if data['method'] == 'get_total_price':
+        total_price = sum(office['price'] for office in offices if office['tenant'] == login)
+        return {
+            'jsonrpc': '2.0',
+            'result': total_price,
             'id': id
         }
 
