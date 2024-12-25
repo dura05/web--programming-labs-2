@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, session
+
 lab6 = Blueprint('lab6', __name__)
 
 offices = []
@@ -8,7 +9,6 @@ for i in range(1, 11):
 @lab6.route('/lab6/')
 def lab():
     return render_template('lab6/lab6.html')
-
 
 
 @lab6.route('/lab6/json-rpc-api/', methods = ['POST'])
@@ -21,7 +21,7 @@ def api():
             'result': offices,
             'id': id
         }
-    
+
     login = session.get('login')
     if not login:
         return {
@@ -32,6 +32,7 @@ def api():
             },
             'id': id
         }
+
     if data['method'] == 'booking':
         office_number = data['params']
         for office in offices:
@@ -45,8 +46,39 @@ def api():
                         },
                         'id': id
                     }
-                
+
                 office['tenant'] = login
+                return {
+                    'jsonrpc': '2.0',
+                    'result': 'success',
+                    'id': id
+                }
+
+    if data['method'] == 'cancellation':
+        office_number = data['params']
+        for office in offices:
+            if office['number'] == office_number:
+                # Офис не сдается в аренду
+                if office['tenant'] == '':
+                    return {
+                        'jsonrpc': '2.0',
+                        'error': {
+                            'code': 3,
+                            'message': 'Office is not rented'
+                        },
+                        'id': id
+                    }
+                # Нельзя снять "чужую" аренду
+                if office['tenant'] != login:
+                    return {
+                        'jsonrpc': '2.0',
+                        'error': {
+                            'code': 4,
+                            'message': 'Cannot cancel someone\'s rental'
+                        },
+                        'id': id
+                    }
+                office['tenant'] = ''
                 return {
                     'jsonrpc': '2.0',
                     'result': 'success',
