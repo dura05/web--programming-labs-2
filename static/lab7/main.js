@@ -55,9 +55,11 @@ function deleteFilm(id, title) {
 
 function showModal() {
     document.querySelector('div.modal').style.display = 'block';
+    document.querySelector('div.modal-backdrop').style.display = 'block';
 }
 function hideModal() {
     document.querySelector('div.modal').style.display = 'none';
+    document.querySelector('div.modal-backdrop').style.display = 'none';
 }
 
 function cancel() {
@@ -94,7 +96,7 @@ function sendFilm() {
     .then(function(resp) {
         if(resp.ok) {
             fillFilmList();
-            hideModal();
+            hideModal();    
             return{};
         }
         return resp.json();
