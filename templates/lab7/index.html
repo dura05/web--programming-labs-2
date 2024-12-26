@@ -18,6 +18,9 @@
         border: 1px solid #e0e0e0;
         animation: fadeIn 0.3s ease-in-out;
     }
+    .error-message {
+        color: red;
+    }
     </style>
 {% endblock %}
 {% block main %}
@@ -58,6 +61,7 @@
     <label>
         Описание:
         <textarea id="description"></textarea>
+        <div id="description-error" class="error-message"></div>
     </label><br>
     <button onclick="sendFilm()">ОК</button>
     <button onclick="cancel()">Отмена</button>
