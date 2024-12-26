@@ -65,6 +65,16 @@ def put_film(id):
         film = request.get_json()
         if film['description'] == '':
             return {'description': 'Заполните описание'}, 400
+        
+        
+         # Проверяем, что русское название заполнено
+        if not film.get('title_ru'):
+            return {'title_ru': 'Русское название обязательно'}, 400
+        # Если оригинальное название пустое, копируем русское
+        if not film.get('title'):
+            film['title'] = film['title_ru']
+            
+            
         films[id] = film
         return jsonify(films[id])
     else:
@@ -79,6 +89,15 @@ def add_film():
      # Проверяем, что описание заполнено
     if film['description'] == '':
             return {'description': 'Заполните описание'}, 400
+        
+         # Проверяем, что русское название заполнено
+    if not film.get('title_ru'):
+        return {'title_ru': 'Русское название обязательно'}, 400
+    # Если оригинальное название пустое, копируем русское
+    if not film.get('title'):
+        film['title'] = film['title_ru']
+        
+        
     films.append(film)
     new_index = len(films) - 1
     return jsonify({"id": new_index}), 201
