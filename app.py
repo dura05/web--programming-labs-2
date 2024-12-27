@@ -3,7 +3,8 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from db import db
 from os import path
-
+from db.models import users
+from flask_login import LoginManager
 
 
 
@@ -16,7 +17,18 @@ from lab5 import lab5
 from lab6 import lab6
 from lab7 import lab7
 from lab8 import lab8
+
+
 app = Flask(__name__)
+
+
+login_manager = LoginManager() 
+login_manager.login_view = 'lab8.login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_users(login_id):
+    return users.query.get (int(login_id))
 
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'секретно-секретный секрет')
 app.config['DB_TYPE'] = os.environ.get('DB_TYPE', 'postgres')
