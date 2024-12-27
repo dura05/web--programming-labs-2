@@ -66,6 +66,7 @@ def article_list():
     return "список статей"
 
 
+##
 @lab8.route('/lab8/logout')
 @login_required
 def logout():
