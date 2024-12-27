@@ -1,0 +1,82 @@
+.ka-block {
+    width: 90%;
+    height: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    margin: 15px auto;
+    border: 5px solid #ffffff;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff6f61, #ffcc00);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    border: 3px solid #ffffff;
+    padding: 15px;
+    color: #ffffff;
+    width: 180px;
+    background-color: #ff6f61;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.5s;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #ffcc00;
+    color: #000000;
+    transform: scale(1.05);
+}
+
+h1, h2, label, div, a, p, blockquote {
+    color: #ffffff;
+    margin: 25px 0;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+body {
+    background: linear-gradient(135deg, #ff6f61, #ffcc00);
+    min-height: 100vh;
+    font-family: 'Arial', sans-serif;
+}
+
+a:hover {
+    color: #ffcc00;
+    transition: 0.5s;
+}
+
+a {
+    transition: 0.5s;
+    text-decoration: none;
+}
+
+.ssilka {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+label {
+    border: 4px solid #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 10px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+input, textarea {
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    background-color: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.for_edit {
+    padding-top: 90px;
+}
